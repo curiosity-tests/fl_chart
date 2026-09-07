@@ -58,6 +58,11 @@ jobs:
       - name: Check formatting
         run: make checkFormat
       - name: Analyze the source code
+        # Analyzer drift, and upstream is red at this same step (imaNNeo/fl_chart
+        # runs 33558385456 / 33363117188, job `verify`, step `Analyze the source code`).
+        # Kept non-fatal so `make runTests` below still executes and the baseline
+        # measures real work rather than stopping at a lint gate.
+        continue-on-error: true
         run: make analyze
       - name: Run tests
         run: make runTests
